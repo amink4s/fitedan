@@ -6,10 +6,10 @@
   },
   "frame": {
     "version": "1",
-    "name": "Example Frame",
+    "name": "fitedan",
     "iconUrl": "https://fitedan.vercel.app/icon.png",
     "homeUrl": "https://fitedan.vercel.app",
-    "imageUrl": "https://fitedan.vercel.app/image.png",
+    "imageUrl": "https://fitedan.vercel.app/splash.png",
     "buttonTitle": "Check this out",
     "splashImageUrl": "https://fitedan.vercel.app/splash.png",
     "splashBackgroundColor": "#eeccff",
