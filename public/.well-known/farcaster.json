@@ -11,7 +11,7 @@
     "homeUrl": "https://fitedan.vercel.app",
     "imageUrl": "https://fitedan.vercel.app/splash.png",
     "primaryCategory": "games",
-    "heroImageUrl": "https://fitedan.vercel.app/hero.png",
+    "heroImageUrl": "https://fitedan.vercel.app/splash.png",
     "description": "fitedan is a Farcaster mini app to fite dan.",
     "ogTitle" : "fitedan App",
     "ogImageUrl" : "https://fitedan.vercel.app/splash.png",
