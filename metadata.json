@@ -1,0 +1,5 @@
+{
+  "name": "Face Boxer",
+  "description": "A fast-paced boxing reaction game where you punch a moving target to rack up high scores. Features a leaderboard and combo system.",
+  "requestFramePermissions": []
+}
