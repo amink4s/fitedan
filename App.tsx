@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, ScoreEntry } from './types';
 import { UserProfile } from './components/UserProfile';
 import { Game } from './components/Game';
@@ -18,6 +18,71 @@ const MOCK_LEADERBOARD: ScoreEntry[] = [
 ];
 
 function App() {
+  // Attempt to call Farcaster Mini App SDK `ready` action when the app mounts.
+  // This helps Farcaster hide its splash screen and show the mini app when the SDK is available.
+  useEffect(() => {
+    let cancelled = false;
+
+    const tryCallReady = async () => {
+      // 1) Try well-known global objects that host a `ready` method
+      const globalCandidates = ['farcaster', 'Farcaster', 'FarcasterSDK', 'farcasterSDK', 'miniApp', 'MiniApp', 'FarcasterMiniApp'];
+      for (const name of globalCandidates) {
+        try {
+          // @ts-ignore
+          const obj = (window as any)[name];
+          if (obj && typeof obj.ready === 'function') {
+            try {
+              await obj.ready();
+              console.info(`[Farcaster] called ready() on window.${name}`);
+              return;
+            } catch (err) {
+              console.warn(`[Farcaster] window.${name}.ready() threw:`, err);
+            }
+          }
+        } catch (err) {
+          // ignore
+        }
+        if (cancelled) return;
+      }
+
+      // 2) Try dynamic imports for a few plausible package names (if the host bundles one)
+      const pkgCandidates = ['@farcaster/miniapp', '@farcaster/mini-app', '@farcaster/sdk', '@farcaster/farcaster-mini'];
+      for (const pkg of pkgCandidates) {
+        try {
+          // dynamic import; will fail if package isn't present, which we catch
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          const mod = await import(/* webpackIgnore: true */ pkg).catch(() => null);
+          if (!mod) continue;
+          const sdk = (mod && (mod.default || mod)) as any;
+          if (sdk && typeof sdk.ready === 'function') {
+            try {
+              await sdk.ready();
+              console.info(`[Farcaster] called ready() from package ${pkg}`);
+              return;
+            } catch (err) {
+              console.warn(`[Farcaster] ${pkg}.ready() threw:`, err);
+            }
+          }
+        } catch (err) {
+          // ignore import failures
+        }
+        if (cancelled) return;
+      }
+
+      // 3) Fallback: if there's a `postMessage` handshake pattern the host uses, send a notification
+      try {
+        window.parent.postMessage && window.parent.postMessage({ type: 'mini-app-loaded' }, '*');
+        console.info('[Farcaster] posted mini-app-loaded to parent window');
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    tryCallReady();
+
+    return () => { cancelled = true; };
+  }, []);
+
   const [activeTab, setActiveTab] = useState<'game' | 'leaderboard'>('game');
   const [leaderboardData, setLeaderboardData] = useState<ScoreEntry[]>(MOCK_LEADERBOARD);
 
