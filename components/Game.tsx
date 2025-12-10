@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+// Import the Farcaster SDK
+import { sdk } from '@farcaster/miniapp-sdk'; 
+
 import { GameState, HitMarker } from '../types';
 import { Play, RotateCcw, Zap } from 'lucide-react';
 import normalDan from '../src/assets/normaldan.svg';
@@ -30,20 +33,6 @@ interface Particle {
   angle: number;
 }
 
-// Ensure the Farcaster SDK types are available if you are using TypeScript 
-// (though the implementation uses the window object for robustness)
-declare global {
-  interface Window {
-    farcaster?: {
-      sdk?: {
-        action?: {
-          ready: () => void;
-        };
-      };
-    };
-  }
-}
-
 export const Game: React.FC<GameProps> = ({ onGameEnd }) => {
   const [gameState, setGameState] = useState<GameState>(GameState.IDLE);
   const [score, setScore] = useState(0);
@@ -66,15 +55,20 @@ export const Game: React.FC<GameProps> = ({ onGameEnd }) => {
   const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentIntervalRef = useRef(INITIAL_MOVE_INTERVAL);
 
-  // ⭐️ FIX: Call farcaster.sdk.action.ready() on initial load
+  // ⭐️ FIX: Use the imported SDK to call actions.ready()
   useEffect(() => {
-    // Check if running in a browser environment and if the Farcaster SDK object is injected.
-    if (typeof window !== 'undefined' && window.farcaster?.sdk?.action?.ready) {
+    // The Farcaster docs suggest `await sdk.actions.ready()`.
+    // In React's useEffect, we call it directly.
+    // We add a check for the SDK just in case, though the import usually handles this.
+    if (sdk && sdk.actions && sdk.actions.ready) {
       try {
-        window.farcaster.sdk.action.ready();
-        // console.log('Farcaster Mini App ready signal sent.');
+        // NOTE: While the docs use 'await', we call it without 'await' in this 
+        // useEffect hook as it's not designed to be async, but the function 
+        // itself is likely returning a promise that the Farcaster environment handles.
+        sdk.actions.ready();
+        // console.log('Farcaster SDK imported ready() called.');
       } catch (error) {
-        // console.error('Error calling farcaster.sdk.action.ready():', error);
+        // console.error('Error calling sdk.actions.ready():', error);
       }
     }
   }, []); // Empty dependency array ensures this runs once on mount
