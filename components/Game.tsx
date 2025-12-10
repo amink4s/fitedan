@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GameState, HitMarker } from '../types';
 import { Play, RotateCcw, Zap } from 'lucide-react';
+import normalDan from '../src/assets/normaldan.svg';
+import hurtDan from '../src/assets/hurtdan.svg';
 
 // === CONFIGURATION ===
-// Normal Pirate Face
-const TARGET_NORMAL = "data:image/svg+xml,%3Csvg xmlns='../assets/normaldan.svg' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23ffffff'/%3E%3Cg stroke='%23000000' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M80 40 h120 v160 a80 80 0 0 1 -160 0 Z' /%3E%3Cpath d='M80 80 h120' /%3E%3Cpath d='M80 120 h120' /%3E%3Cpath d='M80 140 a25 25 0 0 0 -30 10 a25 25 0 0 0 30 10' stroke-width='10'/%3E%3Cpath d='M160 130 a30 30 0 0 1 30 30 v10 h-60 v-10 a30 30 0 0 1 30 -30 Z' fill='%23000000' stroke='none'/%3E%3Ccircle cx='115' cy='150' r='8' fill='%23000000' stroke='none'/%3E%3Cpath d='M135 150 v50 h25' /%3E%3Cpath d='M110 240 q40 30 80 0' /%3E%3Cline x1='150' y1='265' x2='150' y2='275' stroke-width='8'/%3E%3C/g%3E%3C/svg%3E";
-
-// Hurt Pirate Face
-const TARGET_HURT = "data:image/svg+xml,%3Csvg xmlns='../assets/hurtdan.svg' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23e5e7eb'/%3E%3Cg stroke='%23000000' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M80 40 h120 v160 a80 80 0 0 1 -160 0 Z' /%3E%3Cpath d='M80 80 h120' /%3E%3Cpath d='M80 120 h120' /%3E%3Cpath d='M80 140 a25 25 0 0 0 -30 10 a25 25 0 0 0 30 10' stroke-width='10'/%3E%3Cpath d='M160 130 a30 30 0 0 1 30 30 v10 h-60 v-10 a30 30 0 0 1 30 -30 Z' fill='%23000000' stroke='none'/%3E%3C!-- Crossed Left Eye --%3E%3Cline x1='105' y1='140' x2='125' y2='160' stroke-width='8'/%3E%3Cline x1='125' y1='140' x2='105' y2='160' stroke-width='8'/%3E%3Cpath d='M135 150 v50 h25' /%3E%3C!-- Ouch Mouth --%3E%3Ccircle cx='150' cy='240' r='15' fill='%23000000' stroke='none'/%3E%3Cline x1='150' y1='265' x2='150' y2='275' stroke-width='8'/%3E%3C/g%3E%3C/svg%3E";
+// Use actual SVG files from `src/assets` so they render correctly
+const TARGET_NORMAL: string = normalDan;
+const TARGET_HURT: string = hurtDan;
 
 // Boxing Glove SVG
 const BOXING_GLOVE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20,50 Q10,50 10,40 Q10,10 40,10 Q60,10 70,30 L80,30 Q90,30 90,50 Q90,70 80,70 L70,70 Q70,90 40,90 Q10,90 20,50 Z' fill='%23dc2626' stroke='%237f1d1d' stroke-width='3'/%3E%3Cpath d='M70,30 Q60,30 60,50 Q60,70 70,70' fill='none' stroke='%237f1d1d' stroke-width='3'/%3E%3Crect x='75' y='35' width='15' height='30' rx='5' fill='%23991b1b'/%3E%3C/svg%3E";
@@ -258,7 +258,7 @@ export const Game: React.FC<GameProps> = ({ onGameEnd }) => {
               <img 
                 src={isHurt ? TARGET_HURT : TARGET_NORMAL} 
                 alt="Target" 
-                className={`w-full h-full object-cover rounded-full border-4 ${isHurt ? 'border-red-500 bg-red-100 scale-95' : 'border-gray-200 bg-white'} transition-all duration-75 relative z-10 pointer-events-none select-none`}
+                className={`w-full h-full object-cover rounded-full border-4 ${isHurt ? 'border-red-500 bg-transparent scale-95' : 'border-gray-200 bg-transparent'} transition-all duration-75 relative z-10 pointer-events-none select-none`}
                 draggable={false}
               />
             </div>
