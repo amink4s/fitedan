@@ -52,6 +52,21 @@ export const Game: React.FC<GameProps> = ({ onGameEnd }) => {
   const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentIntervalRef = useRef(INITIAL_MOVE_INTERVAL);
 
+  // 🌟 FIX: Call farcaster.sdk.action.ready() on initial load
+  useEffect(() => {
+    console.log('Attempting to call farcaster.sdk.action.ready()');
+    if (typeof window !== 'undefined' && window.farcaster && window.farcaster.sdk && window.farcaster.sdk.action && typeof window.farcaster.sdk.action.ready === 'function') {
+      try {
+        window.farcaster.sdk.action.ready();
+        console.log('farcaster.sdk.action.ready() called successfully.');
+      } catch (error) {
+        console.error('Error calling farcaster.sdk.action.ready():', error);
+      }
+    } else {
+      console.warn('Farcaster SDK ready function not found on window object.');
+    }
+  }, []); // Empty dependency array ensures this runs once on mount
+
   const moveTarget = useCallback(() => {
     if (containerRef.current) {
       const { clientWidth, clientHeight } = containerRef.current;
