@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjQ3NzEyNiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDIxOGE5YjU4QjkyOWRCRDBEOTEzMkFENEZlYzBkRkRCNzkyNDUyYkQifQ",
+    "payload": "eyJkb21haW4iOiJmaXRlZGFuLnZlcmNlbC5hcHAifQ",
+    "signature": "AriJ3BQADmwCe3BOf2wwZ+9kmeBuTcYS0uvSaQ2yd68vnC/PME772oALOpmML5aFn8hdsrDmc/b2c9n+sru5DBs="
+  },
+  "frame": {
+    "version": "1",
+    "name": "Example Frame",
+    "iconUrl": "https://fitedan.vercel.app/icon.png",
+    "homeUrl": "https://fitedan.vercel.app",
+    "imageUrl": "https://fitedan.vercel.app/image.png",
+    "buttonTitle": "Check this out",
+    "splashImageUrl": "https://fitedan.vercel.app/splash.png",
+    "splashBackgroundColor": "#eeccff",
+    "webhookUrl": "https://fitedan.vercel.app/api/webhook"
+  }
+}
