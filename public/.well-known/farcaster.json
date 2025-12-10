@@ -15,7 +15,7 @@
     "description": "fitedan is a Farcaster mini app to fite dan.",
     "ogTitle" : "fitedan App",
     "ogImageUrl" : "https://fitedan.vercel.app/splash.png",
-    
+    "ogDescription": "fitedan is a Farcaster mini app to fite dan.",
     "buttonTitle": "fitedan App",
     "splashImageUrl": "https://fitedan.vercel.app/splash.png",
     "splashBackgroundColor": "#eeccff",
