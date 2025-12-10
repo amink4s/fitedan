@@ -7,10 +7,10 @@
   "frame": {
     "version": "1",
     "name": "fitedan",
-    "iconUrl": "https://fitedan.vercel.app/icon.png",
+    "iconUrl": "https://fitedan.vercel.apps/splash.png",
     "homeUrl": "https://fitedan.vercel.app",
     "imageUrl": "https://fitedan.vercel.app/splash.png",
-    "buttonTitle": "Check this out",
+    "buttonTitle": "fitedan App",
     "splashImageUrl": "https://fitedan.vercel.app/splash.png",
     "splashBackgroundColor": "#eeccff",
     "webhookUrl": "https://fitedan.vercel.app/api/webhook"
